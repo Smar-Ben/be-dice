@@ -24,3 +24,18 @@
     padding: 20px;
     margin: 0 auto;
 }
+
+.selector {
+    margin: 20px auto;
+}
+.selector input {
+    width: 50px;
+    text-align: center;
+}
+
+.result {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
