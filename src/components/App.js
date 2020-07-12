@@ -4,9 +4,11 @@ import Dice from "./Dice";
 
 function App() {
     const [num, setNum] = useState(0);
+
     const changeNumber = () => {
         setNum(Math.floor(Math.random() * 6) + 1);
     };
+
     return (
         <div className="App">
             <div className="header">
@@ -14,7 +16,7 @@ function App() {
             </div>
             <div className="main">
                 <button onClick={changeNumber}>Roll a dice</button>
-                <Dice number={num}></Dice>
+                {num !== 0 && <Dice number={num}></Dice>}
             </div>
         </div>
     );
