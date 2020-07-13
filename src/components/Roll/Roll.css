@@ -1,0 +1,7 @@
+.selector {
+    margin: 20px auto;
+}
+.selector input {
+    width: 50px;
+    text-align: center;
+}
