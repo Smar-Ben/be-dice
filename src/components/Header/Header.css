@@ -21,6 +21,22 @@
     color: white;
 }
 
+.header div {
+    flex: 1;
+}
+.header div:last-child {
+    text-align: left;
+}
+.header div:last-child {
+    text-align: right;
+}
+
+.mainIcon {
+    padding: 0 20px;
+    color: white;
+    width: 50px;
+}
+
 .main {
     padding: 20px;
     margin: 0 auto;

@@ -1,11 +1,20 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import "./Roll.css";
 import Result from "../Result/Result";
+const io = require("socket.io-client");
+const socket = io("http://localhost:4001");
 
 function App() {
     const [numDice, setDice] = useState(1);
     const [numFace, setFace] = useState(6);
     const [num, setNum] = useState({ result: [], face: 6 });
+
+    useEffect(() => {
+        socket.on("changeNum", (msg) => {
+            setNum(msg);
+        });
+        return () => socket.disconnect();
+    }, []);
 
     const changeNumber = () => {
         const newNum = new Array(numDice);
@@ -13,7 +22,9 @@ function App() {
             newNum[i] = Math.floor(Math.random() * numFace) + 1;
         }
         setNum({ result: newNum, face: numFace });
+        socket.emit("dice", { result: newNum, face: numFace });
     };
+
     const changeNumberDice = (e) => {
         setDice(e.target.value);
     };

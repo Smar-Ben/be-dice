@@ -1,17 +1,16 @@
-var app = require("express")();
-var http = require("http").createServer(app);
-var io = require("socket.io")(http);
+const app = require("express")();
+const server = require("http").createServer(app);
 
-app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/index.html");
-});
+const port = 4001;
+const io = require("socket.io")(server);
 
+let actualDice = { result: [], face: 6 };
 io.on("connection", (socket) => {
-    socket.on("chat message", (msg) => {
-        io.emit("chat message", msg);
+    socket.emit("changeNum", actualDice);
+    socket.on("dice", (msg) => {
+        socket.broadcast.emit("changeNum", msg);
+        actualDice = msg;
     });
 });
 
-http.listen(3600, () => {
-    console.log("listening on *:3600");
-});
+server.listen(port, () => console.log(`Listening on port ${port}`));
