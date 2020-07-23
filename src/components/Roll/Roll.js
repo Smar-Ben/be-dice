@@ -9,8 +9,14 @@ function App() {
     const [numFace, setFace] = useState(6);
     const [num, setNum] = useState({ result: [], face: 6 });
 
+    const getRoomNb = () => {
+        return window.location.href.split("#")[1];
+    };
+
     useEffect(() => {
+        socket.emit("enterRoom", getRoomNb());
         socket.on("changeNum", (msg) => {
+            console.log(msg);
             setNum(msg);
         });
         return () => socket.disconnect();
@@ -22,18 +28,21 @@ function App() {
             newNum[i] = Math.floor(Math.random() * numFace) + 1;
         }
         setNum({ result: newNum, face: numFace });
-        socket.emit("dice", { result: newNum, face: numFace });
+        socket.emit("dice", { id: getRoomNb(), result: newNum, face: numFace });
     };
 
     const changeNumberDice = (e) => {
         setDice(e.target.value);
     };
+
     const changeFaceNum = (e) => {
         setFace(parseInt(e.target.value));
     };
+
     return (
         <Fragment>
             <div className="selector">
+                <h3>Room number {getRoomNb()}</h3>
                 <p>
                     Roll{" "}
                     <input

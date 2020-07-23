@@ -1,18 +1,19 @@
 import Roll from "./Roll/Roll";
+import Home from "./Home/Home";
 import Header from "./Header/Header";
 import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function App() {
     return (
-        <React.Fragment>
+        <Router>
             <Header>
-                {/* <div style={{ display: "flex", flexDirection: "column" }}>
-                    <button style={{ margin: 10 }}>Create</button>
-                    <button style={{ margin: 10 }}>Join</button>
-                </div> */}
-                <Roll />
+                <Switch>
+                    <Route exact={true} path="/" component={Home}></Route>
+                    <Route path="/roll" component={Roll}></Route>
+                </Switch>
             </Header>
-        </React.Fragment>
+        </Router>
     );
 }
 export default App;

@@ -10,7 +10,9 @@ function App(props) {
                 <div></div>
                 <h1>BE DICE</h1>
                 <div>
-                    <FontAwesomeIcon icon={faHome} className="mainIcon" size="2x" />
+                    <a href="/">
+                        <FontAwesomeIcon icon={faHome} className="mainIcon" size="2x" />
+                    </a>
                 </div>
             </div>
             <div className="main">{props.children}</div>
