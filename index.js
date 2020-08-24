@@ -7,18 +7,6 @@ const io = require("socket.io")(server);
 let rooms = {};
 let i = 0;
 io.on("connection", (socket) => {
-    /* 
-    socket.emit("changeNum", actualDice);
-    
-    socket.on("createRoom", (msg) => {
-        console.log("New room created " + msg);
-        const num = Math.floor(Math.random() * 10);
-        socket.emit("newRoom", num);
-    });
-    socket.on("disconnect", () => {
-        console.log("user disconnected");
-    }); */
-
     socket.on("createRoom", (msg) => {
         const room = {
             id: i.toString(),
@@ -28,8 +16,13 @@ io.on("connection", (socket) => {
         rooms[room.id] = room;
         console.log(isNaN(room.id));
         socket.join(room.id);
-        socket.emit("newRoom", i);
+        socket.emit("joinRoom", i);
         i++;
+    });
+
+    socket.on("checkRoom", (msg) => {
+        console.log(msg, rooms[msg]);
+        socket.emit("joinRoom", msg);
     });
 
     socket.on("enterRoom", (msg) => {
