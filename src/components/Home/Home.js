@@ -1,7 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import Dialog from "../Dialog";
-import { Button } from "@blueprintjs/core";
 
 const io = require("socket.io-client");
 const socket = io("http://localhost:4001");
@@ -20,10 +18,6 @@ function App() {
         });
         return () => socket.disconnect();
     }, [history]);
-
-    const closeDialog = () => {
-        setOpen(false);
-    };
 
     const checkRoom = (idRoom) => {
         console.log(idRoom);
@@ -68,7 +62,6 @@ function App() {
                         </button>
                     </div>
                 )}
-                {/*                 <Dialog isOpen={isOpen} closeDialog={closeDialog} joinRoom={checkRoom} />{" "} */}
             </div>
         </React.Fragment>
     );

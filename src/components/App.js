@@ -1,12 +1,11 @@
 import Roll from "./Roll/Roll";
 import Home from "./Home/Home";
 import Header from "./Header/Header";
-import React, { useState } from "react";
+import React from "react";
+import Erreur from "./Erreur";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Button } from "@blueprintjs/core";
-import Dialog from "./NewDialog";
+
 function App() {
-    const [isOpen, setOpen] = useState(false);
     return (
         <React.Fragment>
             <Router>
@@ -14,6 +13,7 @@ function App() {
                     <Switch>
                         <Route exact={true} path="/" component={Home}></Route>
                         <Route path="/roll" component={Roll}></Route>
+                        <Route path="/" component={Erreur}></Route>
                     </Switch>
                 </Header>
             </Router>
