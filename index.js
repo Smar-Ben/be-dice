@@ -9,12 +9,14 @@ let rooms = {};
 
 io.on("connection", (socket) => {
     let idx;
+    let pseudo = "";
     socket.on("createRoom", (msg) => {
         const room = {
             id: shortid.generate(),
             result: [],
             face: 6,
             nbPlayer: 0,
+            player: [],
         };
         rooms[room.id] = room;
         socket.join(room.id);
@@ -24,6 +26,8 @@ io.on("connection", (socket) => {
     socket.on("checkRoom", (msg) => {
         if (rooms[msg]) {
             socket.emit("joinRoom", msg);
+        } else {
+            socket.emit("errorFound", msg);
         }
     });
 
@@ -39,15 +43,33 @@ io.on("connection", (socket) => {
         }
     });
 
+    socket.on("addPlayer", (msg) => {
+        const { id, newPseudo } = msg;
+        console.log(rooms[id]);
+        if (rooms[id].player.indexOf(newPseudo) === -1) {
+            rooms[id].player.push(newPseudo);
+            pseudo = newPseudo;
+            socket.emit("launchGame", { status: "good", list: rooms[id].player });
+            socket.to(id).emit("launchGame", { status: "good", list: rooms[id].player });
+        } else {
+            socket.emit("launchGame", { status: "error" });
+        }
+    });
+
     socket.on("dice", (msg) => {
         const { id, result, face } = msg;
         rooms[id] = msg;
-        socket.to(id).emit("changeNum", { result: result, face: face });
+        socket.to(id).emit("changeNum", { result: result, face: face, pseudo: pseudo });
     });
 
     socket.on("disconnect", (msg) => {
         if (idx) {
             rooms[idx].nbPlayer -= 1;
+            if (pseudo !== "") {
+                const playerTab = rooms[idx].player;
+                playerTab.splice(playerTab.indexOf(pseudo), 1);
+                socket.to(idx).emit("updatePlayer", { list: rooms[idx].player });
+            }
             if (rooms[idx].nbPlayer === 0) {
                 delete rooms[idx];
             }

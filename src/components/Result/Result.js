@@ -4,7 +4,6 @@ import Dice from "../Dice/Dice";
 
 function App(props) {
     const { dices, faces, num } = props;
-
     return (
         <React.Fragment>
             <div className="result">
